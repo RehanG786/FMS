@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -579,5 +579,668 @@
 });
 </script>
 </body>
+</html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام التجارة | TIJARAT SYSTEMS - Financial Management</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #007bff; /* Blue */
+      --secondary-color: #28a745; /* Green for success/income */
+      --danger-color: #dc3545; /* Red for expense */
+      --background-light: #f8f9fa;
+      --surface-light: #ffffff;
+      --text-light: #343a40;
+      --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    }
+
+    /* Dark Mode Variables */
+    .dark-mode {
+      --background-light: #212529;
+      --surface-light: #343a40;
+      --text-light: #f8f9fa;
+      --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+    }
+
+    /* Global Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--background-light);
+      color: var(--text-light);
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    .container-fluid {
+      padding: 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--primary-color);
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-weight: 700;
+      margin: 0;
+    }
+
+    /* Card/Section Styles */
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: var(--box-shadow);
+      background-color: var(--surface-light);
+      transition: background-color 0.4s, box-shadow 0.4s;
+      margin-bottom: 25px;
+    }
+
+    .card-header {
+      background-color: var(--primary-color);
+      color: #fff;
+      border-radius: 15px 15px 0 0;
+      padding: 15px 20px;
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Form & Input Styles */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: 500;
+      color: var(--text-light);
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      padding: 10px 15px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      width: 100%;
+      background-color: transparent;
+      color: var(--text-light);
+      transition: border-color 0.3s;
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      outline: none;
+    }
+
+    .dark-mode input[type="number"],
+    .dark-mode input[type="text"],
+    .dark-mode select {
+      border-color: #495057;
+      background-color: #495057;
+      color: #fff;
+    }
+
+    /* Button Styles */
+    .btn {
+      padding: 10px 20px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+
+    .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+    .btn-primary:hover { background-color: #0056b3; border-color: #0056b3; transform: translateY(-1px); }
+
+    .btn-success { background-color: var(--secondary-color); border-color: var(--secondary-color); }
+    .btn-success:hover { background-color: #1e7e34; border-color: #1e7e34; transform: translateY(-1px); }
+
+    .btn-danger { background-color: var(--danger-color); border-color: var(--danger-color); }
+    .btn-danger:hover { background-color: #bd2130; border-color: #bd2130; transform: translateY(-1px); }
+
+    /* List Styles */
+    .list-group-item {
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--background-light);
+      transition: background-color 0.4s, border-color 0.4s;
+    }
+
+    .dark-mode .list-group-item {
+      border-color: #495057;
+      background-color: #495057;
+    }
+
+    .income-item { border-left: 5px solid var(--secondary-color); }
+    .expense-item { border-left: 5px solid var(--danger-color); }
+    .sale-item { border-left: 5px solid var(--primary-color); }
+
+    .list-group-item-actions button {
+      margin-left: 5px;
+    }
+    
+    /* Financial Report Styles */
+    #financial-report-section .card-body p {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #financial-report-section .card-body span {
+      font-weight: 700;
+    }
+
+    .profit { color: var(--secondary-color); }
+    .loss { color: var(--danger-color); }
+    .zero-balance { color: var(--primary-color); }
+
+    /* Dark Mode Toggle */
+    .dark-mode-toggle {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .dark-mode-toggle .btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Preloader (kept simple for demonstration) */
+    #preloader {
+      /* ... preloader styles as before ... */
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1000;
+      display: flex; justify-content: center; align-items: center; opacity: 1; visibility: visible;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #preloader.inactive { opacity: 0; visibility: hidden; }
+    .preloader {
+      border: 4px solid rgba(255, 255, 255, 0.3); border-top: 4px solid var(--primary-color);
+      border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>نظام التجارة | TIJARAT SYSTEMS 📈</h1>
+    <div class="dark-mode-toggle">
+      <button id="dark-mode-btn" title="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="preloader-wrapper" id="preloader">
+    <div class="preloader"></div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+            <div class="col-lg-12">
+        <div class="card" id="financial-report-section">
+          <div class="card-header"><i class="fas fa-chart-line"></i> Financial Summary</div>
+          <div class="card-body row">
+            <div class="col-md-6">
+              <h4>Profit/Loss:</h4>
+              <p>Total Income: <span id="total-income" class="profit">$0.00</span></p>
+              <p>Total Expenses: <span id="total-expenses" class="loss">$0.00</span></p>
+              <p><strong>Net Profit/Loss:</strong> <span id="profit-loss" class="zero-balance"><strong>$0.00</strong></span></p>
+            </div>
+            <div class="col-md-6">
+              <h4>Inventory & Sales:</h4>
+              <p>Total Sales Revenue: <span id="total-sales-revenue">$0.00</span></p>
+              <p>Total Inventory Value (Cost): <span id="total-inventory-value">$0.00</span></p>
+              <p>Gross Profit (Sales - Cost of Goods): <span id="gross-profit">$0.00</span></p>
+            </div>
+            <div class="col-12 mt-3">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+            <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header"><i class="fas fa-boxes"></i> Manage Inventory</div>
+          <div class="card-body">
+            <form id="inventory-form">
+              <div class="form-group"><label for="product">Product Name:</label><input type="text" id="product" placeholder="e.g., Laptop Pro" required></div>
+              <div class="form-group"><label for="quantity">Quantity:</label><input type="number" id="quantity" min="1" placeholder="Enter quantity" required></div>
+              <div class="form-group"><label for="cost-price">Cost Price ($):</label><input type="number" id="cost-price" min="0" step="0.01" placeholder="e.g., 500.00" required></div>
+              <div class="form-group"><label for="selling-price">Selling Price ($):</label><input type="number" id="selling-price" min="0" step="0.01" placeholder="e.g., 750.00" required></div>
+              <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> Add to Inventory</button>
+            </form>
+            <h4 class="mt-4">Current Stock:</h4>
+            <ul class="list-group" id="inventory-list"></ul>
+          </div>
+        </div>
+      </div>
+
+            <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header"><i class="fas fa-cash-register"></i> Track Sales & Transactions</div>
+          <div class="card-body">
+            
+                        <h4>Record a Sale:</h4>
+            <form id="sales-form">
+              <div class="form-group"><label for="sale-product">Product Sold:</label><select id="sale-product" required></select></div>
+              <div class="form-group"><label for="sale-quantity">Quantity Sold:</label><input type="number" id="sale-quantity" min="1" placeholder="Enter quantity" required></div>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-cart-arrow-down"></i> Record Sale</button>
+            </form>
+
+            <hr>
+
+                        <h4>Other Transactions:</h4>
+            <form id="transaction-form">
+              <div class="form-group"><label for="transaction-type">Type:</label><select id="transaction-type"><option value="income">Income (e.g., Loan)</option><option value="expense">Expense (e.g., Rent)</option></select></div>
+              <div class="form-group"><label for="transaction-amount">Amount ($):</label><input type="number" id="transaction-amount" min="0.01" step="0.01" placeholder="Enter amount" required></div>
+              <div class="form-group"><label for="transaction-description">Description:</label><input type="text" id="transaction-description" placeholder="e.g., Monthly Rent Payment" required></div>
+              <button type="submit" class="btn btn-secondary"><i class="fas fa-file-invoice-dollar"></i> Add Transaction</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+            <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header"><i class="fas fa-history"></i> Full Transaction History</div>
+          <div class="card-body">
+            <ul class="list-group" id="history-list">
+                          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center py-3">
+      <p class="text-muted">&copy; 2025 TIJARAT SYSTEMS. All rights reserved. | Data saved to Local Storage.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    // --- Initializing Data from Local Storage ---
+    let inventory = JSON.parse(localStorage.getItem('tijaratInventory')) || [];
+    let transactions = JSON.parse(localStorage.getItem('tijaratTransactions')) || [];
+    let sales = JSON.parse(localStorage.getItem('tijaratSales')) || [];
+    let myChart;
+
+    // --- DOM Elements ---
+    const inventoryForm = document.getElementById('inventory-form');
+    const salesForm = document.getElementById('sales-form');
+    const transactionForm = document.getElementById('transaction-form');
+    const inventoryList = document.getElementById('inventory-list');
+    const historyList = document.getElementById('history-list');
+    const totalIncomeDisplay = document.getElementById('total-income');
+    const totalExpensesDisplay = document.getElementById('total-expenses');
+    const profitLossDisplay = document.getElementById('profit-loss');
+    const totalSalesRevenueDisplay = document.getElementById('total-sales-revenue');
+    const totalInventoryValueDisplay = document.getElementById('total-inventory-value');
+    const grossProfitDisplay = document.getElementById('gross-profit');
+    const saleProductSelect = document.getElementById('sale-product');
+    const preloader = document.getElementById('preloader');
+    const darkModeBtn = document.getElementById('dark-mode-btn');
+
+    // --- Utility Functions ---
+    function saveToLocalStorage() {
+      localStorage.setItem('tijaratInventory', JSON.stringify(inventory));
+      localStorage.setItem('tijaratTransactions', JSON.stringify(transactions));
+      localStorage.setItem('tijaratSales', JSON.stringify(sales));
+    }
+    
+    function formatCurrency(amount) {
+      return `$${parseFloat(amount).toFixed(2)}`;
+    }
+
+    // --- Dark Mode Toggle ---
+    darkModeBtn.addEventListener('click', function() {
+      document.body.classList.toggle('dark-mode');
+      const icon = this.querySelector('i');
+      if (document.body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
+      // Update chart colors on dark mode toggle
+      updateChart(calculateFinancials(true));
+    });
+
+    // --- Inventory Functions ---
+    function updateInventoryList() {
+      inventoryList.innerHTML = '';
+      saleProductSelect.innerHTML = '';
+      
+      inventory.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.innerHTML = `
+          <div>
+            <strong>${item.product}</strong>
+            <span> | Qty: ${item.quantity}</span>
+            <span class="text-danger"> | Cost: ${formatCurrency(item.costPrice)}</span>
+            <span class="text-success"> | Sell: ${formatCurrency(item.sellingPrice)}</span>
+          </div>
+          <div class="list-group-item-actions">
+            <button class="btn btn-sm btn-danger delete-item" data-index="${index}"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        `;
+        inventoryList.appendChild(listItem);
+
+        // Update Sales Product Dropdown
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${item.product} (${item.quantity} in stock)`;
+        saleProductSelect.appendChild(option);
+      });
+      
+      // Attach delete event listeners
+      inventoryList.querySelectorAll('.delete-item').forEach(button => {
+        button.addEventListener('click', function() {
+          const index = parseInt(this.dataset.index);
+          inventory.splice(index, 1);
+          saveToLocalStorage();
+          updateAll();
+        });
+      });
+    }
+
+    // --- Transaction History Functions ---
+    function updateHistoryList() {
+      historyList.innerHTML = '';
+      
+      const combinedHistory = [
+        ...transactions.map(t => ({...t, category: t.type, amount: t.type === 'expense' ? -t.amount : t.amount})),
+        ...sales.map(s => ({...s, category: 'sale', amount: s.revenue, description: `Sale of ${s.quantity} x ${s.productName}`}))
+      ];
+
+      // Sort by a pseudo-timestamp (or just keep insertion order for simplicity)
+      
+      combinedHistory.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        let typeClass = '';
+        let icon = '';
+
+        if (item.category === 'income') {
+          typeClass = 'income-item text-success';
+          icon = 'fa-arrow-up';
+        } else if (item.category === 'expense') {
+          typeClass = 'expense-item text-danger';
+          icon = 'fa-arrow-down';
+        } else if (item.category === 'sale') {
+          typeClass = 'sale-item text-primary';
+          icon = 'fa-store';
+        }
+
+        const displayAmount = Math.abs(item.amount);
+
+        listItem.className = `list-group-item ${typeClass}`;
+        listItem.innerHTML = `
+          <div>
+            <i class="fas ${icon}"></i> 
+            <strong>${item.category.toUpperCase()}</strong>: ${item.description}
+          </div>
+          <div>
+            ${formatCurrency(displayAmount)}
+          </div>
+        `;
+        historyList.prepend(listItem); // Show newest first
+      });
+    }
+
+    // --- Financial Calculations ---
+    function calculateFinancials(isChartUpdate = false) {
+      let totalIncome = 0;
+      let totalExpenses = 0;
+      let totalSalesRevenue = 0;
+      let totalCostOfGoodsSold = 0;
+      let totalInventoryValue = 0;
+
+      // Calculate Inventory Value
+      inventory.forEach(item => {
+        totalInventoryValue += item.quantity * item.costPrice;
+      });
+
+      // Calculate Sales figures
+      sales.forEach(sale => {
+        totalSalesRevenue += sale.revenue;
+        totalCostOfGoodsSold += sale.costOfGoodsSold;
+      });
+      
+      // Calculate Other Transactions
+      transactions.forEach(t => {
+        if (t.type === 'income') {
+          totalIncome += t.amount;
+        } else if (t.type === 'expense') {
+          totalExpenses += t.amount;
+        }
+      });
+
+      // Sales Revenue is also income (it's the main business income)
+      totalIncome += totalSalesRevenue;
+      // Cost of Goods Sold is also an expense
+      totalExpenses += totalCostOfGoodsSold;
+      
+      const grossProfit = totalSalesRevenue - totalCostOfGoodsSold; // Revenue - COGS
+      const netProfitLoss = totalIncome - totalExpenses; // All Income - All Expenses
+
+      if (!isChartUpdate) {
+        totalIncomeDisplay.textContent = formatCurrency(totalIncome);
+        totalExpensesDisplay.textContent = formatCurrency(totalExpenses);
+        totalSalesRevenueDisplay.textContent = formatCurrency(totalSalesRevenue);
+        totalInventoryValueDisplay.textContent = formatCurrency(totalInventoryValue);
+        grossProfitDisplay.textContent = formatCurrency(grossProfit);
+        
+        profitLossDisplay.textContent = formatCurrency(netProfitLoss);
+        profitLossDisplay.className = netProfitLoss > 0 ? 'profit' : (netProfitLoss < 0 ? 'loss' : 'zero-balance');
+      }
+
+      return { totalIncome, totalExpenses, totalSalesRevenue, grossProfit };
+    }
+
+    // --- ChartJS Update ---
+    function updateChart(financialData) {
+      const ctx = document.getElementById('myChart').getContext('2d');
+
+      if (myChart) {
+        myChart.destroy(); 
+      }
+      
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+      const tickColor = isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+
+      myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Total Income', 'Total Expenses', 'Gross Profit', 'Sales Revenue'],
+          datasets: [{
+            label: 'Amount ($)',
+            data: [financialData.totalIncome, financialData.totalExpenses, financialData.grossProfit, financialData.totalSalesRevenue],
+            backgroundColor: [
+              'rgba(40, 167, 69, 0.8)',  // Income (Green)
+              'rgba(220, 53, 69, 0.8)',  // Expense (Red)
+              'rgba(255, 193, 7, 0.8)',  // Gross Profit (Yellow)
+              'rgba(0, 123, 255, 0.8)'   // Sales Revenue (Blue)
+            ],
+            borderColor: [
+              'rgba(40, 167, 69, 1)',
+              'rgba(220, 53, 69, 1)',
+              'rgba(255, 193, 7, 1)',
+              'rgba(0, 123, 255, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: tickColor // Legend text color
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: tickColor }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: gridColor },
+              ticks: { color: tickColor }
+            }
+          }
+        }
+      });
+    }
+
+    // --- Master Update Function ---
+    function updateAll() {
+      saveToLocalStorage();
+      updateInventoryList();
+      updateHistoryList();
+      const financialData = calculateFinancials();
+      updateChart(financialData);
+    }
+
+    // --- Event Listeners ---
+    
+    // Add/Update Inventory
+    inventoryForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const product = document.getElementById('product').value.trim();
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const costPrice = parseFloat(document.getElementById('cost-price').value);
+      const sellingPrice = parseFloat(document.getElementById('selling-price').value);
+
+      // Simple check for existing product to update quantity (or add new)
+      const existingItemIndex = inventory.findIndex(item => item.product.toLowerCase() === product.toLowerCase());
+
+      if (existingItemIndex > -1) {
+        // Update existing item
+        inventory[existingItemIndex].quantity += quantity;
+        alert(`Updated quantity for ${product}. New stock: ${inventory[existingItemIndex].quantity}`);
+      } else {
+        // Add new item
+        inventory.push({ product, quantity, costPrice, sellingPrice });
+      }
+      
+      inventoryForm.reset();
+      updateAll();
+    });
+
+    // Record Sale
+    salesForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const selectedIndex = parseInt(document.getElementById('sale-product').value);
+      const saleQuantity = parseInt(document.getElementById('sale-quantity').value);
+      
+      if (selectedIndex === -1 || !inventory[selectedIndex]) {
+        alert('Please select a product.');
+        return;
+      }
+
+      const productToSell = inventory[selectedIndex];
+      
+      if (saleQuantity > productToSell.quantity) {
+        alert(`Insufficient stock. Only ${productToSell.quantity} of ${productToSell.product} available.`);
+        return;
+      }
+
+      // Calculate sale details
+      const revenue = saleQuantity * productToSell.sellingPrice;
+      const costOfGoodsSold = saleQuantity * productToSell.costPrice;
+      
+      // 1. Record the sale
+      sales.push({
+        productName: productToSell.product,
+        quantity: saleQuantity,
+        revenue: revenue,
+        costOfGoodsSold: costOfGoodsSold,
+        timestamp: new Date().toISOString()
+      });
+      
+      // 2. Deduct from inventory
+      productToSell.quantity -= saleQuantity;
+      
+      // 3. Remove product if stock is zero
+      if (productToSell.quantity === 0) {
+        inventory.splice(selectedIndex, 1);
+      }
+      
+      salesForm.reset();
+      updateAll();
+    });
+
+    // Add Other Income/Expense Transaction
+    transactionForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const type = document.getElementById('transaction-type').value;
+      const amount = parseFloat(document.getElementById('transaction-amount').value);
+      const description = document.getElementById('transaction-description').value.trim();
+
+      transactions.push({
+        type,
+        amount,
+        description,
+        timestamp: new Date().toISOString()
+      });
+      
+      transactionForm.reset();
+      updateAll();
+    });
+
+    // --- Initial Load & Preloader ---
+    preloader.classList.remove('inactive');
+    setTimeout(function() {
+      updateAll(); // Initial data load and rendering
+      preloader.classList.add('inactive');
+    }, 800);
+    
+    // Ensure a product is selected for Sales Form on load
+    saleProductSelect.innerHTML = '<option value="-1" disabled selected>Select a product to sell</option>' + saleProductSelect.innerHTML;
+  });
+  </script>
+</body>
 </html>
+
 
