@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIJARAT SYSTEMS | Enhanced Business Dashboard</title>
+    <title>TIJARAT SYSTEMS | Final Control Version</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -101,7 +101,7 @@
             margin-bottom: 20px;
         }
         
-        /* --- Graph Size Control (Minimal Look) --- */
+        /* --- Graph Size Control (MINIMAL) --- */
         #chart-container {
             height: 150px; /* Reduced Height */
             margin-bottom: 10px;
@@ -117,16 +117,12 @@
             background-color: #ffffff; padding: 30px; border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); width: 350px; text-align: center;
         }
+        .login-box h2 { color: var(--primary-color); margin-bottom: 20px; }
+        .login-box button { margin-top: 15px; }
 
-        /* Invoice Section Specific Styles */
-        #invoice-details {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .invoice-item-list th, .invoice-item-list td {
-            padding: 8px;
-        }
+        /* Invoice Styles */
+        #invoice-details { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        .invoice-item-list th, .invoice-item-list td { padding: 8px; }
         @media print {
             body * { visibility: hidden; }
             #invoice-print-area, #invoice-print-area * { visibility: visible; }
@@ -158,8 +154,9 @@
                 <a href="#reports-view"><i class="fas fa-chart-bar"></i> Financial Report</a>
             </div>
             <div style="padding: 20px; margin-top: 50px;">
-                <button class="btn btn-sm btn-danger w-100" onclick="handleLogout()">Logout</button>
-                <p class="text-white-50 small mt-2 text-center" id="last-login-date"></p>
+                <button class="btn btn-sm btn-danger w-100 mb-2" onclick="handleLogout()">Logout</button>
+                <button class="btn btn-sm btn-warning w-100" onclick="clearAppDataConfirmation()"><i class="fas fa-trash"></i> Clear All Data</button>
+                <p class="text-white-50 small mt-3 text-center" id="last-login-date"></p>
             </div>
         </div>
 
@@ -295,7 +292,8 @@
                                     <button type="submit" class="btn btn-warning w-100"><i class="fas fa-plus"></i> Add to Invoice</button>
                                 </form>
                                 <h4 class="mt-4">Invoice History:</h4>
-                                <ul class="list-group" id="invoice-history-list"></ul>
+                                <ul class="list-group" id="invoice-history-list">
+                                    </ul>
                             </div>
                             <div class="col-md-6">
                                 <h4>Invoice Preview:</h4>
@@ -315,7 +313,7 @@
                                     </div>
                                 </div>
                                 <button class="btn btn-info w-100 mt-3" onclick="printInvoice()"><i class="fas fa-print"></i> Print Invoice</button>
-                                <button class="btn btn-danger w-100 mt-2" onclick="clearInvoice()"><i class="fas fa-times"></i> Clear Invoice</button>
+                                <button class="btn btn-danger w-100 mt-2" onclick="clearInvoice()"><i class="fas fa-times"></i> Clear Invoice Draft</button>
                             </div>
                         </div>
                     </section>
@@ -352,49 +350,57 @@
     <script>
         // --- DATA STORAGE & INITIALIZATION ---
         
-        // Function to manage daily data clearing (runs first)
-        function manageDailyDataReset() {
+        // Function to manage the date and manual clear button
+        function updateDateAndInitData() {
             const today = new Date().toDateString();
             const lastRunDate = localStorage.getItem('tijaratLastRunDate');
 
-            if (lastRunDate && lastRunDate !== today) {
-                console.log("New day detected. Clearing old data...");
+            // Set the new run date immediately for the next session
+            localStorage.setItem('tijaratLastRunDate', today);
+            
+            // Display the current date and last reset info
+            document.getElementById('date-display').textContent = 'Date: ' + today;
+            document.getElementById('last-login-date').textContent = 'Last Reset: ' + (lastRunDate || 'Never');
+
+            // Initialize data (arrays will be empty if keys don't exist)
+            window.inventory = JSON.parse(localStorage.getItem('tijaratInventory')) || [];
+            window.transactions = JSON.parse(localStorage.getItem('tijaratTransactions')) || [];
+            window.sales = JSON.parse(localStorage.getItem('tijaratSales')) || [];
+            window.payments = JSON.parse(localStorage.getItem('tijaratPayments')) || [];
+            window.invoices = JSON.parse(localStorage.getItem('tijaratInvoices')) || [];
+            window.currentInvoiceItems = JSON.parse(sessionStorage.getItem('currentInvoiceItems')) || [];
+        }
+
+        // --- MANUAL DATA CLEAR FUNCTION ---
+        function clearAppDataConfirmation() {
+            if (confirm("WARNING: This will permanently delete ALL Inventory, Sales, Transaction, and Invoice data from your browser. Are you sure you want to proceed?")) {
                 localStorage.removeItem('tijaratInventory');
                 localStorage.removeItem('tijaratTransactions');
                 localStorage.removeItem('tijaratSales');
                 localStorage.removeItem('tijaratPayments');
                 localStorage.removeItem('tijaratInvoices');
+                localStorage.removeItem('tijaratLastRunDate');
+                sessionStorage.removeItem('currentInvoiceItems');
                 
-                alert('Data from the previous day has been cleared. Starting with a fresh sheet!');
+                // Re-initialize arrays to empty
+                updateDateAndInitData();
+                
+                alert('All data has been successfully cleared!');
+                updateAll();
             }
-            
-            localStorage.setItem('tijaratLastRunDate', today);
-            
-            document.getElementById('date-display').textContent = 'Date: ' + today;
-            document.getElementById('last-login-date').textContent = 'Last Data Reset: ' + (lastRunDate || 'Never');
         }
 
-        manageDailyDataReset(); 
-
-        // Initialize arrays (AFTER potential clearing)
-        let inventory = JSON.parse(localStorage.getItem('tijaratInventory')) || [];
-        let transactions = JSON.parse(localStorage.getItem('tijaratTransactions')) || [];
-        let sales = JSON.parse(localStorage.getItem('tijaratSales')) || [];
-        let payments = JSON.parse(localStorage.getItem('tijaratPayments')) || [];
-        let invoices = JSON.parse(localStorage.getItem('tijaratInvoices')) || [];
-        let currentInvoiceItems = JSON.parse(sessionStorage.getItem('currentInvoiceItems')) || []; // Use session storage for current draft
-        let myChart;
-
+        // Run the data initialization management function 
+        updateDateAndInitData(); 
 
         // --- AUTHENTICATION & NAVIGATION ---
-
         function handleLogin() {
             const password = document.getElementById('password-input').value;
             if (password === '1234') {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('dashboard-app').style.display = 'flex';
                 updateAll();
-                window.location.hash = '#dashboard-view'; // Start at dashboard
+                window.location.hash = '#dashboard-view'; 
             } else {
                 document.getElementById('login-error').style.display = 'block';
             }
@@ -412,14 +418,16 @@
         const views = ['dashboard-view', 'inventory-view', 'sales-view', 'billing-view', 'reports-view'];
         function navigate(hash) {
             views.forEach(viewId => {
-                document.getElementById(viewId).style.display = 'none';
+                const viewElement = document.getElementById(viewId);
+                if (viewElement) viewElement.style.display = 'none';
             });
             const targetViewId = hash.replace('#', '');
             const targetView = document.getElementById(targetViewId);
             if (targetView) {
                 targetView.style.display = 'block';
                 document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-                document.querySelector(`.sidebar-menu a[href="${hash}"]`).classList.add('active');
+                const activeLink = document.querySelector(`.sidebar-menu a[href="${hash}"]`);
+                if (activeLink) activeLink.classList.add('active');
             }
         }
         window.addEventListener('hashchange', () => navigate(window.location.hash));
@@ -448,16 +456,11 @@
         // --- UPDATE FUNCTIONS ---
 
         function updateInventoryList() {
-            // Update Inventory List
             const inventoryList = document.getElementById('inventory-list');
-            inventoryList.innerHTML = '';
-            
-            // Update Sales Product Dropdown
             const saleProductSelect = document.getElementById('sale-product');
-            saleProductSelect.innerHTML = '<option value="-1" disabled selected>Select an item from Inventory</option>';
-
-            // Update Invoice Product Dropdown
             const invoiceProductSelect = document.getElementById('invoice-product');
+            inventoryList.innerHTML = '';
+            saleProductSelect.innerHTML = '<option value="-1" disabled selected>Select an item from Inventory</option>';
             invoiceProductSelect.innerHTML = '<option value="-1" disabled selected>Select Item for Invoice</option>';
             
             inventory.forEach((item, index) => {
@@ -539,6 +542,7 @@
         
         function updateInvoicePreview() {
             const previewBody = document.getElementById('invoice-preview-body');
+            const invoiceHistoryList = document.getElementById('invoice-history-list');
             let total = 0;
             previewBody.innerHTML = '';
             
@@ -560,16 +564,23 @@
             
             document.getElementById('invoice-total').textContent = formatCurrency(total);
             document.getElementById('invoice-date').textContent = new Date().toLocaleDateString();
+            document.getElementById('invoice-number').textContent = String(invoices.length + 1).padStart(3, '0');
+
+            invoiceHistoryList.innerHTML = '';
+            invoices.reverse().slice(0, 5).forEach(inv => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between alert-info';
+                li.innerHTML = `<strong>INV #${String(inv.id).padStart(3, '0')}</strong> (${inv.date}): <span>${formatCurrency(inv.total)}</span>`;
+                invoiceHistoryList.appendChild(li);
+            });
         }
 
-        // Add item to draft invoice
         function removeItemFromInvoice(index) {
             currentInvoiceItems.splice(index, 1);
             saveToLocalStorage();
             updateInvoicePreview();
         }
 
-        // Clear the draft invoice
         function clearInvoice() {
             currentInvoiceItems = [];
             sessionStorage.removeItem('currentInvoiceItems');
@@ -577,14 +588,12 @@
             alert('Invoice draft cleared.');
         }
 
-        // Print function
         function printInvoice() {
             if (currentInvoiceItems.length === 0) {
                 alert('Invoice is empty. Add items before printing/saving.');
                 return;
             }
             
-            // 1. Simulate saving the invoice (This is a simplified assumption)
             const total = currentInvoiceItems.reduce((sum, item) => sum + (item.quantity * item.sellingPrice), 0);
             
             invoices.push({
@@ -594,17 +603,15 @@
                 total: total
             });
             
-            // 2. Clear draft, save data
             clearInvoice();
             saveToLocalStorage();
-            updateAll(); // Update dashboard counts
+            updateAll();
             
-            // 3. Print (actual browser print dialog)
             window.print();
         }
 
 
-        // --- CALCULATIONS ---
+        // --- CALCULATIONS & CHART ---
 
         function calculateFinancials(isChartUpdate = false) {
             let totalOtherIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
@@ -626,7 +633,7 @@
 
                 // Update Reports Section
                 document.getElementById('total-sales-revenue-report').textContent = formatCurrency(totalSalesRevenue);
-                document.getElementById('total-other-income-report').textContent = formatCurrency(totalOtherIncome + totalPayments); // Payments & Income combined
+                document.getElementById('total-other-income-report').textContent = formatCurrency(totalOtherIncome + totalPayments);
                 document.getElementById('total-expenses-report').textContent = formatCurrency(totalExpenses);
                 
                 const netReport = document.getElementById('net-profit-report');
@@ -637,7 +644,6 @@
             return { totalIncome, totalExpenses, totalSalesRevenue };
         }
 
-        // --- CHART UPDATE (Minimal) ---
         function updateChart(financialData) {
             const ctx = document.getElementById('myChart').getContext('2d');
 
@@ -653,9 +659,9 @@
                         label: 'Amount ($)',
                         data: [financialData.totalIncome, financialData.totalExpenses, financialData.totalSalesRevenue],
                         backgroundColor: [
-                            'rgba(46, 204, 113, 0.7)', // Income (Success)
-                            'rgba(231, 76, 60, 0.7)', // Expense (Danger)
-                            'rgba(52, 152, 219, 0.7)' // Revenue (Primary)
+                            'rgba(46, 204, 113, 0.7)', 
+                            'rgba(231, 76, 60, 0.7)', 
+                            'rgba(52, 152, 219, 0.7)' 
                         ],
                         borderWidth: 1
                     }]
@@ -663,13 +669,13 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    legend: { display: false }, // Hides the legend for minimal look
+                    legend: { display: false }, 
                     tooltips: { mode: 'index', intersect: false },
                     scales: {
-                        xAxes: [{ gridLines: { display: false } }], // Hide X grid lines
+                        xAxes: [{ gridLines: { display: false } }], 
                         yAxes: [{ 
                             ticks: { beginAtZero: true },
-                            gridLines: { borderDash: [2, 2] } // Dashed Y grid lines
+                            gridLines: { borderDash: [2, 2] } 
                         }]
                     }
                 }
