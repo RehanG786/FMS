@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TIJARAT SYSTEMS | Comprehensive Financial System</title>
+  <title>TIJARAT SYSTEMS | Centered Financial System</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Modern RTL Dark Theme Variables */
+    /* Modern LTR Dark Theme Variables */
     :root {
       --primary-color: #00bcd4; /* Cyan/Sky Blue for action/headings */
       --surface-dark: #2c3e50; /* Deep Blue Grey */
@@ -25,6 +25,13 @@
       background-color: var(--background-dark);
       color: var(--text-light);
       transition: all 0.3s ease;
+    }
+    
+    /* --- CENTERING FIX --- */
+    .main-content-wrapper {
+      max-width: 1200px; /* Max width for the entire app area */
+      margin: 0 auto; /* Crucial for horizontal centering */
+      padding: 0 15px;
     }
 
     /* Header Styles */
@@ -45,7 +52,7 @@
       border-radius: 12px;
       box-shadow: var(--box-shadow);
       margin-bottom: 20px;
-      border-right: 4px solid var(--primary-color); /* Modern accent for RTL */
+      border-left: 4px solid var(--primary-color);
     }
     section h2 { font-size: 1.5rem; border-bottom: 2px solid #34495e; padding-bottom: 10px; margin-bottom: 20px; color: var(--primary-color); }
     section h3 { font-size: 1.25rem; color: var(--text-light); margin-top: 20px; }
@@ -81,10 +88,9 @@
       justify-content: space-between;
       align-items: center;
     }
-    /* RTL adjustment: border is on the right */
-    .income-item { border-right: 5px solid var(--success-color); border-left: none; }
-    .expense-item { border-right: 5px solid var(--danger-color); border-left: none; }
-    .sale-item { border-right: 5px solid var(--primary-color); border-left: none; }
+    .income-item { border-left: 5px solid var(--success-color); }
+    .expense-item { border-left: 5px solid var(--danger-color); }
+    .sale-item { border-left: 5px solid var(--primary-color); }
 
     /* Financial Report Styles */
     #financial-report-section .card { background-color: #34495e; border: none; }
@@ -100,7 +106,7 @@
 
     /* Preloader */
     .preloader-wrapper {
-      position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: rgba(30, 39, 46, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0.3s ease;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(30, 39, 46, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0.3s ease;
     }
     .preloader-wrapper.inactive { opacity: 0; visibility: hidden; }
     .preloader { border: 4px solid rgba(255, 255, 255, 0.2); border-top: 4px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
@@ -116,7 +122,7 @@
     <div class="preloader"></div>
   </div>
 
-  <div class="container-fluid">
+  <div class="main-content-wrapper">
     <div class="row">
       
             <div class="col-lg-6">
@@ -198,7 +204,7 @@
   </div>
 
   <footer>
-    <div class="container text-center py-3">
+    <div class="main-content-wrapper text-center py-3">
       <p class="text-muted small">&copy; 2025 TIJARAT SYSTEMS. All data saved securely in your browser's Local Storage.</p>
     </div>
   </footer>
