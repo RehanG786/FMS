@@ -120,13 +120,52 @@
         .login-box h2 { color: var(--primary-color); margin-bottom: 20px; }
         .login-box button { margin-top: 15px; }
 
-        /* Invoice Styles */
-        #invoice-details { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-        .invoice-item-list th, .invoice-item-list td { padding: 8px; }
+        /* --- INVOICE SPECIFIC STYLES & PRINT FIX --- */
+        #invoice-details { 
+            border: 1px solid #ccc; 
+            padding: 20px; 
+            border-radius: 8px; 
+            background: #fdfdfd; 
+            color: #222;
+        }
+        .invoice-item-list th, .invoice-item-list td { padding: 8px; border-top: 1px solid #ddd; }
+        .invoice-item-list th { background-color: #f8f8f8; }
+
         @media print {
-            body * { visibility: hidden; }
-            #invoice-print-area, #invoice-print-area * { visibility: visible; }
-            #invoice-print-area { position: absolute; left: 0; top: 0; width: 100%; }
+            /* Hide everything that is not the invoice */
+            body * { visibility: hidden !important; } 
+            
+            /* Isolate and center the invoice print area */
+            #invoice-print-area {
+                visibility: visible !important;
+                position: absolute; 
+                left: 50% !important; /* Center horizontally */
+                top: 0 !important;
+                width: 90% !important; 
+                max-width: 800px;
+                transform: translateX(-50%);
+                padding: 0;
+                margin: 20px 0;
+                box-shadow: none;
+            }
+            #invoice-print-area * {
+                visibility: visible !important;
+                color: #000 !important; /* Ensure black text */
+            }
+            .invoice-item-list table { width: 100%; border-collapse: collapse; }
+            .invoice-item-list th { border-bottom: 2px solid #333 !important; }
+            .invoice-item-list td { border-bottom: 1px solid #ccc !important; }
+            
+            /* Hide controls/buttons within the invoice print area */
+            #invoice-print-area button, .float-right { display: none !important; }
+            
+            /* Reset body styles for print */
+            body { 
+                background: white !important; 
+                color: black !important;
+                padding-top: 0; 
+                margin: 0;
+            }
         }
     </style>
 </head>
@@ -292,8 +331,7 @@
                                     <button type="submit" class="btn btn-warning w-100"><i class="fas fa-plus"></i> Add to Invoice</button>
                                 </form>
                                 <h4 class="mt-4">Invoice History:</h4>
-                                <ul class="list-group" id="invoice-history-list">
-                                    </ul>
+                                <ul class="list-group" id="invoice-history-list"></ul>
                             </div>
                             <div class="col-md-6">
                                 <h4>Invoice Preview:</h4>
@@ -359,7 +397,7 @@
             localStorage.setItem('tijaratLastRunDate', today);
             
             // Display the current date and last reset info
-            document.getElementById('date-display').textContent = 'Date: ' + today;
+            document.getElementById('date-display').textContent = 'Date: ' + new Date().toLocaleDateString();
             document.getElementById('last-login-date').textContent = 'Last Reset: ' + (lastRunDate || 'Never');
 
             // Initialize data (arrays will be empty if keys don't exist)
@@ -503,7 +541,6 @@
             const transactionList = document.getElementById('transaction-list');
             transactionList.innerHTML = '';
             
-            // Combine all relevant history for the report
             const combinedHistory = [
                 ...transactions.map(t => ({...t, category: t.type, amount: t.amount})),
                 ...sales.map(s => ({...s, category: 'sale', amount: s.revenue, description: `Sale: ${s.quantity} x ${s.productName}`})),
@@ -512,7 +549,7 @@
             
             combinedHistory.reverse(); 
 
-            combinedHistory.slice(0, 10).forEach(item => { // Show max 10 recent transactions
+            combinedHistory.slice(0, 10).forEach(item => { 
                 const listItem = document.createElement('li');
                 let typeClass = '';
                 let icon = '';
@@ -590,12 +627,13 @@
 
         function printInvoice() {
             if (currentInvoiceItems.length === 0) {
-                alert('Invoice is empty. Add items before printing/saving.');
+                alert('Invoice draft is empty. Add items before printing/saving.');
                 return;
             }
             
             const total = currentInvoiceItems.reduce((sum, item) => sum + (item.quantity * item.sellingPrice), 0);
             
+            // 1. Save the invoice first
             invoices.push({
                 id: invoices.length + 1,
                 date: new Date().toLocaleDateString(),
@@ -603,10 +641,12 @@
                 total: total
             });
             
+            // 2. Clear draft, save data, and refresh UI
             clearInvoice();
             saveToLocalStorage();
             updateAll();
             
+            // 3. Open the print dialog
             window.print();
         }
 
