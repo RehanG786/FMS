@@ -1,240 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام التجارة | TIJARAT SYSTEMS | FUTURISTIC</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <title>TIJARAT SYSTEMS | Comprehensive Financial System</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Futuristic Theme Variables */
+    /* Modern RTL Dark Theme Variables */
     :root {
-      --background-dark: #121212;
-      --surface-dark: #1e1e1e;
-      --primary-neon: #00e0ff; /* Cyan */
-      --secondary-neon: #ff007b; /* Magenta */
-      --success-neon: #39ff14; /* Neon Green */
-      --danger-neon: #ff4d4d; /* Bright Red */
-      --text-light: #e0e0e0;
-      --border-color: #333;
-      --shadow-strength: 0 0 10px;
-      
-      /* Default Dark Mode */
-      --primary-color: var(--primary-neon);
-      --secondary-color: var(--success-neon);
+      --primary-color: #00bcd4; /* Cyan/Sky Blue for action/headings */
+      --surface-dark: #2c3e50; /* Deep Blue Grey */
+      --background-dark: #1e272e; /* Very Dark Background */
+      --text-light: #ecf0f1;
+      --success-color: #2ecc71;
+      --danger-color: #e74c3c;
+      --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     /* Global Styles */
     body {
-      font-family: 'Space Grotesk', sans-serif;
-      margin: 0;
-      padding: 0;
+      font-family: 'Roboto', sans-serif;
       background-color: var(--background-dark);
       color: var(--text-light);
-      transition: all 0.5s ease;
-    }
-
-    h1, h2, h3 {
-      color: var(--primary-neon);
-      text-shadow: var(--shadow-strength) rgba(0, 224, 255, 0.4);
-      font-family: 'Major Mono Display', monospace;
-      letter-spacing: 2px;
+      transition: all 0.3s ease;
     }
 
     /* Header Styles */
     header {
       background-color: var(--surface-dark);
-      border-bottom: 2px solid var(--primary-neon);
+      border-bottom: 4px solid var(--primary-color);
       padding: 20px 0;
-      margin-bottom: 30px;
-      box-shadow: var(--shadow-strength) var(--primary-neon);
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       text-align: center;
-      position: relative;
     }
+    header h1 { color: var(--text-light); font-weight: 700; margin: 0; }
 
     /* Section/Card Styles */
     section {
-      margin: 15px;
       padding: 25px;
       background-color: var(--surface-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      box-shadow: var(--shadow-strength) rgba(255, 0, 123, 0.2);
-      transition: all 0.3s ease;
+      border-radius: 12px;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 20px;
+      border-right: 4px solid var(--primary-color); /* Modern accent for RTL */
     }
-
-    section:hover {
-      box-shadow: 0 0 15px 5px rgba(0, 224, 255, 0.5);
-    }
+    section h2 { font-size: 1.5rem; border-bottom: 2px solid #34495e; padding-bottom: 10px; margin-bottom: 20px; color: var(--primary-color); }
+    section h3 { font-size: 1.25rem; color: var(--text-light); margin-top: 20px; }
 
     /* Form & Input Styles */
-    label {
-      font-weight: 700;
-      color: var(--text-light);
-      margin-bottom: 5px;
-      display: block;
+    label { color: var(--text-light); font-weight: 700; }
+    .form-control, select {
+      background-color: #34495e;
+      border: 1px solid #7f8c8d;
+      color: var(--text-light) !important;
+      border-radius: 8px;
+      padding: 10px 15px;
+      width: 100%; /* Ensure full width for input boxes */
+      transition: border-color 0.3s;
     }
+    .form-control:focus, select:focus { border-color: var(--primary-color); box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25); background-color: #465f75; }
 
-    input[type="number"],
-    input[type="text"],
-    select {
-      padding: 10px;
-      border: 1px solid var(--primary-neon);
-      background-color: #2a2a2a;
-      color: var(--text-light);
-      border-radius: 5px;
-      box-shadow: inset 0 0 5px rgba(0, 224, 255, 0.3);
-      transition: all 0.3s;
-    }
-
-    input[type="number"]:focus,
-    input[type="text"]:focus,
-    select:focus {
-      border-color: var(--secondary-neon);
-      box-shadow: var(--shadow-strength) var(--secondary-neon);
-      background-color: #3a3a3a;
-      outline: none;
-    }
-
-    /* Button Styles (using original class names) */
-    .btn, button {
-      border: none;
-      padding: 12px 20px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-weight: 700;
-      text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-      transition: all 0.3s ease;
-      color: var(--background-dark) !important;
-    }
-
-    .btn-primary { 
-      background-color: var(--primary-neon); 
-      box-shadow: 0 0 10px var(--primary-neon);
-    }
-    .btn-primary:hover { 
-      background-color: #00b3cc; 
-      box-shadow: 0 0 20px var(--primary-neon);
-      transform: translateY(-2px);
-    }
-
-    .btn-success { 
-      background-color: var(--success-neon); 
-      box-shadow: 0 0 10px var(--success-neon);
-    }
-    .btn-success:hover { 
-      background-color: #33cc00; 
-      box-shadow: 0 0 20px var(--success-neon);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary { 
-      background-color: var(--secondary-neon); 
-      box-shadow: 0 0 10px var(--secondary-neon);
-    }
-    .btn-secondary:hover { 
-      background-color: #cc0060; 
-      box-shadow: 0 0 20px var(--secondary-neon);
-      transform: translateY(-2px);
-    }
-    
-    .btn-danger {
-      background-color: var(--danger-neon);
-      box-shadow: 0 0 8px var(--danger-neon);
-      color: var(--background-dark) !important;
-    }
-    .btn-danger:hover {
-      background-color: #cc3d3d;
-      box-shadow: 0 0 15px var(--danger-neon);
-    }
-
+    /* Button Styles */
+    .btn { font-weight: 700; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); }
+    .btn-primary { background-color: var(--primary-color); border-color: var(--primary-color); }
+    .btn-success { background-color: var(--success-color); border-color: var(--success-color); }
+    .btn-danger { background-color: var(--danger-color); border-color: var(--danger-color); }
+    .btn-secondary { background-color: #34495e; border-color: #34495e; color: var(--text-light); }
 
     /* List Styles */
     .list-group-item {
-      border: 1px solid var(--border-color);
-      padding: 10px 15px;
+      background-color: #34495e;
+      border: 1px solid #7f8c8d;
       margin-bottom: 8px;
-      border-radius: 5px;
-      background-color: #242424;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: monospace;
     }
-    
-    .income-item { border-left: 4px solid var(--success-neon); color: var(--success-neon); }
-    .expense-item { border-left: 4px solid var(--danger-neon); color: var(--danger-neon); }
-    .sale-item { border-left: 4px solid var(--primary-neon); color: var(--primary-neon); }
-    
-    .list-group-item-actions button {
-      font-size: 0.8rem;
-    }
+    /* RTL adjustment: border is on the right */
+    .income-item { border-right: 5px solid var(--success-color); border-left: none; }
+    .expense-item { border-right: 5px solid var(--danger-color); border-left: none; }
+    .sale-item { border-right: 5px solid var(--primary-color); border-left: none; }
 
-    /* Financial Report Card */
-    .card {
-      border: none;
-      border-radius: 10px;
-      background-color: #242424;
-      box-shadow: var(--shadow-strength) var(--primary-neon);
-    }
+    /* Financial Report Styles */
+    #financial-report-section .card { background-color: #34495e; border: none; }
+    #financial-report-section .card-header { background-color: var(--primary-color); color: var(--text-light); font-size: 1.1rem; border-radius: 12px 12px 0 0; }
+    #financial-report-section .card-body p { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted #7f8c8d; }
+    #financial-report-section .card-body span { font-weight: 700; }
+    .profit { color: var(--success-color); }
+    .loss { color: var(--danger-color); }
+    .zero-balance { color: var(--primary-color); }
 
-    .card-header {
-      background-color: #003344;
-      border-radius: 10px 10px 0 0;
-      color: var(--primary-neon);
-      padding: 15px;
-      border-bottom: 1px solid var(--primary-neon);
-    }
+    /* Footer */
+    footer { border-top: 1px solid #34495e; padding: 15px; }
 
-    .card-body p {
-      display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      border-bottom: 1px dashed #333;
-    }
-
-    .card-body span {
-      font-weight: 700;
-    }
-
-    .profit { color: var(--success-neon); }
-    .loss { color: var(--danger-neon); }
-    .zero-balance { color: var(--primary-neon); }
-
-    /* Preloader Styles */
+    /* Preloader */
     .preloader-wrapper {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(18, 18, 18, 0.95); z-index: 1000;
-      display: flex; justify-content: center; align-items: center;
-      opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0.3s ease;
+      position: fixed; top: 0; right: 0; width: 100%; height: 100%; background-color: rgba(30, 39, 46, 0.95); z-index: 1000; display: flex; justify-content: center; align-items: center; opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0.3s ease;
     }
-
     .preloader-wrapper.inactive { opacity: 0; visibility: hidden; }
-
-    .preloader {
-      border: 4px solid rgba(255, 255, 255, 0.1);
-      border-top: 4px solid var(--primary-neon);
-      border-radius: 50%; width: 50px; height: 50px;
-      animation: spin 1s linear infinite, glow 1.5s infinite alternate;
-    }
-
+    .preloader { border: 4px solid rgba(255, 255, 255, 0.2); border-top: 4px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes glow {
-      0% { box-shadow: 0 0 5px var(--primary-neon); }
-      100% { box-shadow: 0 0 20px var(--primary-neon); }
-    }
-
-    /* New Feature Section Style */
-    #sales-section {
-      border-left: 5px solid var(--secondary-neon);
-    }
   </style>
 </head>
 <body>
   <header>
-    <h1>نظام التجارة | TIJARAT SYSTEMS <i class="fas fa-microchip"></i></h1>
-      </header>
+    <h1>TIJARAT SYSTEMS | Financial Management <i class="fas fa-handshake"></i></h1>
+  </header>
 
   <div class="preloader-wrapper" id="preloader">
     <div class="preloader"></div>
@@ -242,68 +118,16 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-6">
-                <section id="sales-section">
-          <h2><i class="fas fa-cash-register"></i> Record a Sale</h2>
-          <form id="sales-form">
-            <div class="form-group">
-              <label for="sale-product">Product Sold:</label>
-              <select id="sale-product" required>
-                <option value="-1" disabled selected>Select an item from Inventory</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="sale-quantity">Quantity Sold:</label>
-              <input type="number" id="sale-quantity" min="1" placeholder="Enter quantity" required>
-            </div>
-            <button type="submit" class="btn btn-primary"><i class="fas fa-cart-arrow-down"></i> Finalize Sale</button>
-          </form>
-        </section>
-        
-                <section id="income-expense-section">
-          <h2><i class="fas fa-coins"></i> Record Other Income/Expense</h2>
-          <form id="transaction-form">
-            <div class="form-group">
-              <label for="transaction-type">Transaction Type:</label>
-              <select id="transaction-type">
-                <option value="income">Income (Non-Sale)</option>
-                <option value="expense">Expense (Non-COGS)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="transaction-amount">Amount ($):</label>
-              <input type="number" id="transaction-amount" placeholder="Enter amount" min="0.01" step="0.01" required>
-            </div>
-            <div class="form-group">
-              <label for="transaction-description">Description:</label>
-              <input type="text" id="transaction-description" placeholder="e.g., Bank Loan, Rent, Utilities" required>
-            </div>
-            <button type="submit" class="btn btn-secondary"><i class="fas fa-plus-square"></i> Add Transaction</button>
-          </form>
-        </section>
-      </div>
-
-      <div class="col-lg-6">
-                <section id="inventory-section">
-          <h2><i class="fas fa-boxes"></i> Manage Inventory Stock</h2>
+      
+            <div class="col-lg-6">
+        <section id="inventory-section">
+          <h2><i class="fas fa-boxes"></i> Manage Inventory</h2>
           <form id="inventory-form">
-            <div class="form-group">
-              <label for="product">Product Name:</label>
-              <input type="text" id="product" placeholder="Enter product name" required>
-            </div>
-            <div class="form-group">
-              <label for="quantity">Quantity (Add Stock):</label>
-              <input type="number" id="quantity" min="1" placeholder="Enter quantity" required>
-            </div>
-            <div class="form-group">
-              <label for="cost-price">Cost Price ($):</label>
-              <input type="number" id="cost-price" min="0" step="0.01" placeholder="Enter cost price" required>
-            </div>
-            <div class="form-group">
-              <label for="selling-price">Selling Price ($):</label>
-              <input type="number" id="selling-price" min="0" step="0.01" placeholder="Enter selling price" required>
-            </div>
-            <button type="submit" class="btn btn-success"><i class="fas fa-warehouse"></i> Add/Update Inventory</button>
+            <div class="form-group"><label for="product">Product Name:</label><input type="text" id="product" class="form-control" placeholder="e.g., Laptop Pro" required></div>
+            <div class="form-group"><label for="quantity">Quantity (Add Stock):</label><input type="number" id="quantity" class="form-control" min="1" placeholder="Enter quantity" required></div>
+            <div class="form-group"><label for="cost-price">Cost Price ($):</label><input type="number" id="cost-price" class="form-control" min="0" step="0.01" placeholder="Enter cost price" required></div>
+            <div class="form-group"><label for="selling-price">Selling Price ($):</label><input type="number" id="selling-price" class="form-control" min="0" step="0.01" placeholder="Enter selling price" required></div>
+            <button type="submit" class="btn btn-success w-100"><i class="fas fa-warehouse"></i> Add/Update Inventory</button>
           </form>
           <div id="inventory-list">
             <h3>Current Stock:</h3>
@@ -311,33 +135,63 @@
           </div>
         </section>
       </div>
+
+            <div class="col-lg-6">
+        <section id="sales-transaction-section">
+          <h2><i class="fas fa-cash-register"></i> Sales & Other Transactions</h2>
+          
+          <h4>Record a Sale:</h4>
+          <form id="sales-form">
+            <div class="form-group">
+              <label for="sale-product">Product Sold:</label>
+              <select id="sale-product" class="form-control" required>
+                <option value="-1" disabled selected>Select an item from Inventory</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="sale-quantity">Quantity Sold:</label>
+              <input type="number" id="sale-quantity" class="form-control" min="1" placeholder="Enter quantity" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100"><i class="fas fa-cart-arrow-down"></i> Record Sale</button>
+          </form>
+          
+          <hr>
+
+          <h4>Record Other Income/Expense:</h4>
+          <form id="transaction-form">
+            <div class="form-group"><label for="transaction-type">Type:</label><select id="transaction-type" class="form-control"><option value="income">Income</option><option value="expense">Expense</option></select></div>
+            <div class="form-group"><label for="transaction-amount">Amount ($):</label><input type="number" id="transaction-amount" class="form-control" placeholder="Enter amount" min="0.01" step="0.01" required></div>
+            <div class="form-group"><label for="transaction-description">Description:</label><input type="text" id="transaction-description" class="form-control" placeholder="e.g., Rent, Loan Payment, Extra Income" required></div>
+            <button type="submit" class="btn btn-secondary w-100"><i class="fas fa-file-invoice-dollar"></i> Add Transaction</button>
+          </form>
+        </section>
+      </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-6">
-                <section id="transaction-history-section">
-          <h2><i class="fas fa-history"></i> Transaction History (Sales, Income, Expenses)</h2>
-          <div id="transaction-list">
-            <ul class="list-group"></ul>
+            <div class="col-lg-6">
+        <section id="financial-report-section">
+          <h2><i class="fas fa-chart-line"></i> Financial Report & Chart</h2>
+          <div id="financial-report" class="card">
+            <div class="card-header"><h3 class="card-title">Summary:</h3></div>
+            <div class="card-body">
+              <p>Total Revenue (Sales): <span id="total-sales-revenue" class="zero-balance">$0.00</span></p>
+              <p>Total Other Income: <span id="total-other-income" class="profit">$0.00</span></p>
+              <p>Total Expenses (COGS + Other): <span id="total-expenses" class="loss">$0.00</span></p>
+              <p>Gross Profit (Revenue - COGS): <span id="gross-profit">$0.00</span></p>
+              <p class="mb-0"><strong>NET PROFIT/LOSS:</strong> <span id="profit-loss" class="zero-balance"><strong>$0.00</strong></span></p>
+            </div>
           </div>
+          <canvas id="myChart" class="mt-4"></canvas>
         </section>
       </div>
 
-      <div class="col-lg-6">
-                <section id="financial-report-section">
-          <h2><i class="fas fa-chart-line"></i> Financial Report</h2>
-          <div id="financial-report" class="card">
-            <div class="card-header">
-              <h3 class="card-title">System Summary (NET P/L):</h3>
-            </div>
-            <div class="card-body">
-              <p>Total Income: <span id="total-income" class="profit">$0.00</span></p>
-              <p>Total Expenses: <span id="total-expenses" class="loss">$0.00</span></p>
-              <p>Gross Profit (Sales): <span id="gross-profit">$0.00</span></p>
-              <p class="mb-0"><strong>Net Profit/Loss:</strong> <span id="profit-loss" class="zero-balance"><strong>$0.00</strong></span></p>
-            </div>
+            <div class="col-lg-6">
+        <section id="transaction-history-section">
+          <h2><i class="fas fa-history"></i> Full History</h2>
+          <div id="transaction-list">
+            <ul class="list-group"></ul>
           </div>
-          <canvas id="myChart" width="400" height="200" class="mt-4"></canvas>
         </section>
       </div>
     </div>
@@ -345,45 +199,45 @@
 
   <footer>
     <div class="container text-center py-3">
-      <p>&copy; 2025 TIJARAT SYSTEMS. Data persistence enabled via Local Storage.</p>
+      <p class="text-muted small">&copy; 2025 TIJARAT SYSTEMS. All data saved securely in your browser's Local Storage.</p>
     </div>
   </footer>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
    document.addEventListener('DOMContentLoaded', function() {
     
     // --- DATA STORAGE & INITIALIZATION ---
-    // Using the original array names for compatibility, but adding 'sales'
     let inventory = JSON.parse(localStorage.getItem('tijaratInventory')) || [];
     let transactions = JSON.parse(localStorage.getItem('tijaratTransactions')) || [];
-    let sales = JSON.parse(localStorage.getItem('tijaratSales')) || []; // New array for sales records
+    let sales = JSON.parse(localStorage.getItem('tijaratSales')) || [];
     let myChart;
 
-    // --- DOM ELEMENTS (Using Original IDs) ---
+    // --- DOM Elements ---
     const inventoryForm = document.getElementById('inventory-form');
-    const salesForm = document.getElementById('sales-form'); // New form
-    const transactionForm = document.getElementById('transaction-form'); // Mapping original income-expense-form to transaction-form
+    const salesForm = document.getElementById('sales-form');
+    const transactionForm = document.getElementById('transaction-form');
     
-    const transactionList = document.querySelector('#transaction-list ul');
     const inventoryList = document.querySelector('#inventory-list ul');
+    const transactionList = document.querySelector('#transaction-list ul');
     const saleProductSelect = document.getElementById('sale-product');
 
-    const totalIncomeDisplay = document.getElementById('total-income');
+    const totalSalesRevenueDisplay = document.getElementById('total-sales-revenue');
+    const totalOtherIncomeDisplay = document.getElementById('total-other-income');
     const totalExpensesDisplay = document.getElementById('total-expenses');
-    const profitLossDisplay = document.getElementById('profit-loss');
     const grossProfitDisplay = document.getElementById('gross-profit');
+    const profitLossDisplay = document.getElementById('profit-loss');
     
     const preloader = document.getElementById('preloader');
 
-    // Helper function to save data
     function saveToLocalStorage() {
       localStorage.setItem('tijaratInventory', JSON.stringify(inventory));
       localStorage.setItem('tijaratTransactions', JSON.stringify(transactions));
       localStorage.setItem('tijaratSales', JSON.stringify(sales));
     }
 
-    // Helper function for currency formatting
     function formatCurrency(amount) {
       return `$${parseFloat(amount).toFixed(2)}`;
     }
@@ -401,7 +255,7 @@
           <div>
             <strong>${item.product}</strong>
             <span> | Qty: ${item.quantity}</span>
-            <span class="text-danger"> | Cost: ${formatCurrency(item.costPrice)}</span>
+            <span class="text-secondary"> | Cost: ${formatCurrency(item.costPrice)}</span>
             <span class="text-success"> | Sell: ${formatCurrency(item.sellingPrice)}</span>
           </div>
           <div class="list-group-item-actions">
@@ -432,13 +286,11 @@
     function updateTransactionList() {
       transactionList.innerHTML = '';
       
-      // Combine and sort all financial activities
       const combinedHistory = [
-        ...transactions.map((t, i) => ({...t, category: t.type, amount: t.amount, index: i, list: 'transactions'})),
-        ...sales.map((s, i) => ({...s, category: 'sale', amount: s.revenue, description: `Sale: ${s.quantity} x ${s.productName}`, index: i, list: 'sales'}))
+        ...transactions.map(t => ({...t, category: t.type, amount: t.amount})),
+        ...sales.map(s => ({...s, category: 'sale', amount: s.revenue, description: `Sale: ${s.quantity} x ${s.productName}`}))
       ];
       
-      // Sort by an added timestamp (or index if no timestamp) - showing newest first
       combinedHistory.reverse(); 
 
       combinedHistory.forEach(item => {
@@ -447,13 +299,13 @@
         let icon = '';
 
         if (item.category === 'income') {
-          typeClass = 'income-item';
+          typeClass = 'income-item text-success';
           icon = 'fa-arrow-up';
         } else if (item.category === 'expense') {
-          typeClass = 'expense-item';
+          typeClass = 'expense-item text-danger';
           icon = 'fa-arrow-down';
         } else if (item.category === 'sale') {
-          typeClass = 'sale-item';
+          typeClass = 'sale-item text-primary';
           icon = 'fa-store';
         }
 
@@ -472,19 +324,17 @@
     }
 
     function calculateFinancials(isChartUpdate = false) {
-      let totalIncome = 0;
-      let totalNonSalesIncome = 0;
-      let totalExpenses = 0;
-      let totalNonSalesExpense = 0;
+      let totalOtherIncome = 0;
+      let totalOtherExpense = 0;
       let totalSalesRevenue = 0;
       let totalCostOfGoodsSold = 0;
 
       // Calculate Other Transactions
       transactions.forEach(t => {
         if (t.type === 'income') {
-          totalNonSalesIncome += t.amount;
+          totalOtherIncome += t.amount;
         } else if (t.type === 'expense') {
-          totalNonSalesExpense += t.amount;
+          totalOtherExpense += t.amount;
         }
       });
       
@@ -494,14 +344,15 @@
         totalCostOfGoodsSold += s.costOfGoodsSold;
       });
       
-      totalIncome = totalNonSalesIncome + totalSalesRevenue;
-      totalExpenses = totalNonSalesExpense + totalCostOfGoodsSold;
+      const totalIncome = totalOtherIncome + totalSalesRevenue;
+      const totalExpenses = totalOtherExpense + totalCostOfGoodsSold;
       
-      const grossProfit = totalSalesRevenue - totalCostOfGoodsSold; // Revenue - COGS
-      const netProfitLoss = totalIncome - totalExpenses; // All Income - All Expenses
+      const grossProfit = totalSalesRevenue - totalCostOfGoodsSold; 
+      const netProfitLoss = totalIncome - totalExpenses; 
 
       if (!isChartUpdate) {
-        totalIncomeDisplay.textContent = formatCurrency(totalIncome);
+        totalSalesRevenueDisplay.textContent = formatCurrency(totalSalesRevenue);
+        totalOtherIncomeDisplay.textContent = formatCurrency(totalOtherIncome);
         totalExpensesDisplay.textContent = formatCurrency(totalExpenses);
         grossProfitDisplay.textContent = formatCurrency(grossProfit);
         
@@ -509,7 +360,7 @@
         profitLossDisplay.className = netProfitLoss > 0 ? 'profit' : (netProfitLoss < 0 ? 'loss' : 'zero-balance');
       }
 
-      return { totalIncome, totalExpenses, grossProfit };
+      return { totalIncome, totalExpenses, grossProfit, totalSalesRevenue };
     }
 
     function updateChart(financialData) {
@@ -520,24 +371,26 @@
       }
       
       const tickColor = 'var(--text-light)';
-      const gridColor = 'rgba(255, 255, 255, 0.05)';
+      const gridColor = 'rgba(236, 240, 241, 0.05)';
 
       myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['Total Income', 'Total Expenses', 'Gross Profit'],
+          labels: ['Total Income', 'Total Expenses', 'Gross Profit', 'Sales Revenue'],
           datasets: [{
             label: 'Amount ($)',
-            data: [financialData.totalIncome, financialData.totalExpenses, financialData.grossProfit],
+            data: [financialData.totalIncome, financialData.totalExpenses, financialData.grossProfit, financialData.totalSalesRevenue],
             backgroundColor: [
-              'rgba(57, 255, 20, 0.7)', // Success Neon
-              'rgba(255, 77, 77, 0.7)', // Danger Neon
-              'rgba(0, 224, 255, 0.7)'  // Primary Neon
+              'rgba(46, 204, 113, 0.7)', // Income (Success)
+              'rgba(231, 76, 60, 0.7)', // Expense (Danger)
+              'rgba(255, 193, 7, 0.7)', // Gross Profit (Yellow)
+              'rgba(0, 188, 212, 0.7)' // Sales Revenue (Primary)
             ],
             borderColor: [
-              'var(--success-neon)',
-              'var(--danger-neon)',
-              'var(--primary-neon)'
+              'var(--success-color)',
+              'var(--danger-color)',
+              '#f39c12',
+              'var(--primary-color)'
             ],
             borderWidth: 1
           }]
@@ -554,7 +407,6 @@
       });
     }
     
-    // Master function to refresh all elements
     function updateAll() {
       saveToLocalStorage();
       updateInventoryList();
@@ -563,72 +415,51 @@
       updateChart(financialData);
     }
 
-    // --- EVENT LISTENERS (Updated to use correct IDs and logic) ---
+    // --- EVENT LISTENERS ---
 
-    // 1. Inventory Form (Add/Update Stock)
     inventoryForm.addEventListener('submit', function(event) {
       event.preventDefault();
-      
       const product = document.getElementById('product').value.trim();
       const quantity = parseInt(document.getElementById('quantity').value);
       const costPrice = parseFloat(document.getElementById('cost-price').value);
       const sellingPrice = parseFloat(document.getElementById('selling-price').value);
-
       const existingItemIndex = inventory.findIndex(item => item.product.toLowerCase() === product.toLowerCase());
 
       if (existingItemIndex > -1) {
-        // Update existing item by increasing quantity
         inventory[existingItemIndex].quantity += quantity;
-        // Update cost/selling price to average or latest (using latest here)
-        inventory[existingItemIndex].costPrice = costPrice;
+        inventory[existingItemIndex].costPrice = costPrice; // Use latest cost price
         inventory[existingItemIndex].sellingPrice = sellingPrice;
-        alert(`Updated stock for ${product}. New quantity: ${inventory[existingItemIndex].quantity}`);
       } else {
-        // Add new item
         inventory.push({ product, quantity, costPrice, sellingPrice });
       }
-      
       inventoryForm.reset();
       updateAll();
     });
     
-    // 2. Sales Form (Record a Sale)
     salesForm.addEventListener('submit', function(event) {
       event.preventDefault();
-      
       const selectedIndex = parseInt(document.getElementById('sale-product').value);
       const saleQuantity = parseInt(document.getElementById('sale-quantity').value);
       
-      if (selectedIndex === -1 || !inventory[selectedIndex]) {
-        alert('Please select a product from the list.');
+      if (selectedIndex === -1 || !inventory[selectedIndex] || saleQuantity > inventory[selectedIndex].quantity) {
+        alert('Error: Please select a product and/or check available stock.');
         return;
       }
 
       const productToSell = inventory[selectedIndex];
-      
-      if (saleQuantity > productToSell.quantity) {
-        alert(`Insufficient stock. Only ${productToSell.quantity} of ${productToSell.product} available.`);
-        return;
-      }
-
-      // Calculate sale details
       const revenue = saleQuantity * productToSell.sellingPrice;
       const costOfGoodsSold = saleQuantity * productToSell.costPrice;
       
-      // 1. Record the sale
       sales.push({
         productName: productToSell.product,
         quantity: saleQuantity,
         revenue: revenue,
         costOfGoodsSold: costOfGoodsSold,
-        description: `Sale: ${saleQuantity} x ${productToSell.product}`,
-        amount: revenue // Use revenue for display in history
+        description: `Sale of ${saleQuantity} x ${productToSell.product}`,
+        amount: revenue
       });
       
-      // 2. Deduct from inventory
       productToSell.quantity -= saleQuantity;
-      
-      // 3. Remove product if stock is zero
       if (productToSell.quantity <= 0) {
         inventory.splice(selectedIndex, 1);
       }
@@ -637,31 +468,24 @@
       updateAll();
     });
 
-    // 3. Income/Expense Form (Other Transactions)
     transactionForm.addEventListener('submit', function(event) {
       event.preventDefault();
-
       const type = document.getElementById('transaction-type').value;
       const amount = parseFloat(document.getElementById('transaction-amount').value);
       const description = document.getElementById('transaction-description').value.trim();
 
-      transactions.push({
-        type,
-        amount,
-        description
-      });
+      transactions.push({ type, amount, description });
       
       transactionForm.reset();
       updateAll();
     });
 
-
     // --- INITIALIZATION ---
     preloader.classList.remove('inactive');
     setTimeout(function() {
-      updateAll(); // Initial data load and rendering
+      updateAll(); 
       preloader.classList.add('inactive');
-    }, 1500);
+    }, 1000);
   });
   </script>
 </body>
